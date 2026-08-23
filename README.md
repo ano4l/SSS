@@ -2,6 +2,12 @@
 
 Static site (single-page, client-rendered prototype) deployed on Vercel.
 
+Production domain: **https://diplomaticinformerinvestments.com** (apex). `www` is redirected to the
+apex in `vercel.json`, and the apex is what `canonical`, `og:url` and the JSON-LD `url` advertise —
+change those four places together if the primary hostname ever changes. The domain must also be
+attached to the Vercel project as the *production* domain, otherwise shared links show the
+`*.vercel.app` deployment URL.
+
 ## Structure
 
 - `index.html` - deployed page; identical to `Diplomatic Informer - Trade and Investment.dc.html`
@@ -11,6 +17,8 @@ Static site (single-page, client-rendered prototype) deployed on Vercel.
 - `support.js` - dc runtime; loads React 18 + Babel standalone from unpkg at runtime and renders the `<x-dc>` template
 - `image-slot.js` - `<image-slot>` custom element; reads image assignments from `.image-slots.state.json` via `fetch`
 - `.image-slots.state.json` / `image-slots.state.json` - image-slot sidecar state. The dotfile is the one the authoring tool writes; the non-dot copy exists because Vercel does not reliably serve dotfiles, and `vercel.json` rewrites `/.image-slots.state.json` to it. Keep the two in sync.
+- `assets/favicon.svg`, `favicon-32.png`, `favicon-180.png` - globe favicon (SVG + raster fallbacks)
+- `assets/og-image.jpg` - 1200x630 link-preview image referenced by `og:image` / `twitter:image`
 - `assets/`, `uploads/` - images, logos and documents
 - `design_handoff_trade_investment_site/` - design handoff notes and an earlier snapshot (documentation only)
 - `vercel.json` - Vercel static hosting config (rewrites, cache headers)
