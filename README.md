@@ -2,9 +2,9 @@
 
 Static site (single-page, client-rendered prototype) deployed on Vercel.
 
-Production domain: **https://diplomaticinformerinvestments.com** (apex). `www` is redirected to the
-apex in `vercel.json`, and the apex is what `canonical`, `og:url` and the JSON-LD `url` advertise —
-change those four places together if the primary hostname ever changes. The domain must also be
+Production domain: **https://www.diplomaticinformerinvestments.com** (`www`). The apex redirects to
+`www` in the Vercel domain configuration, and `www` is what `canonical`, `og:url` and the JSON-LD
+`url` advertise. Change those locations together if the primary hostname ever changes. The domain must also be
 attached to the Vercel project as the *production* domain, otherwise shared links show the
 `*.vercel.app` deployment URL.
 

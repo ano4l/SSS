@@ -1,14 +1,6 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.diplomaticinformerinvestments.com" }],
-      "destination": "https://diplomaticinformerinvestments.com/:path*",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     { "source": "/.image-slots.state.json", "destination": "/image-slots.state.json" },
     { "source": "/:path*", "destination": "/index.html" }
