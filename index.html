@@ -1501,15 +1501,17 @@
   </section>
   <section style="padding:64px 0 110px;background:#0A0A0A">
     <div style="max-width:1240px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1fr 380px;gap:80px;align-items:start">
-      <form onSubmit="{{ onSubmit }}">
+      <form onSubmit="{{ onContactSubmit }}">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px 32px">
-          <label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 13px/1 'Public Sans',sans-serif;color:#FAF9F5">Name</span><input type="text" style="height:46px;border:1px solid #242420;background:#141412;padding:0 14px;font:400 15px/1 'Public Sans',sans-serif;color:#FAF9F5;outline:none" style-focus="border-color:#989809"></label>
-          <label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 13px/1 'Public Sans',sans-serif;color:#FAF9F5">Organisation</span><input type="text" style="height:46px;border:1px solid #242420;background:#141412;padding:0 14px;font:400 15px/1 'Public Sans',sans-serif;color:#FAF9F5;outline:none" style-focus="border-color:#989809"></label>
-          <label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 13px/1 'Public Sans',sans-serif;color:#FAF9F5">Email</span><input name="email" type="email" style="height:46px;border:1px solid #242420;background:#141412;padding:0 14px;font:400 15px/1 'Public Sans',sans-serif;color:#FAF9F5;outline:none" style-focus="border-color:#989809"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 13px/1 'Public Sans',sans-serif;color:#FAF9F5">Name</span><input name="fullName" type="text" autocomplete="name" required maxlength="120" style="height:46px;border:1px solid #242420;background:#141412;padding:0 14px;font:400 15px/1 'Public Sans',sans-serif;color:#FAF9F5;outline:none" style-focus="border-color:#989809"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 13px/1 'Public Sans',sans-serif;color:#FAF9F5">Organisation</span><input name="organisation" type="text" autocomplete="organization" maxlength="160" style="height:46px;border:1px solid #242420;background:#141412;padding:0 14px;font:400 15px/1 'Public Sans',sans-serif;color:#FAF9F5;outline:none" style-focus="border-color:#989809"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 13px/1 'Public Sans',sans-serif;color:#FAF9F5">Email</span><input name="email" type="email" autocomplete="email" required maxlength="254" style="height:46px;border:1px solid #242420;background:#141412;padding:0 14px;font:400 15px/1 'Public Sans',sans-serif;color:#FAF9F5;outline:none" style-focus="border-color:#989809"></label>
           <label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 13px/1 'Public Sans',sans-serif;color:#FAF9F5">Enquiry type</span><select name="enquiryType" style="height:46px;border:1px solid #242420;background:#141412;padding:0 12px;font:400 15px/1 'Public Sans',sans-serif;color:#FAF9F5;outline:none"><option>Trade facilitation</option><option>Investment opportunity</option><option>Directory membership</option><option>Media and partnerships</option><option>Other</option></select></label>
         </div>
-        <label style="display:flex;flex-direction:column;gap:8px;margin-top:26px"><span style="font:500 13px/1 'Public Sans',sans-serif;color:#FAF9F5">Message</span><textarea name="message" rows="6" style="border:1px solid #242420;background:#141412;padding:12px 14px;font:400 15px/1.6 'Public Sans',sans-serif;color:#FAF9F5;outline:none;resize:vertical"></textarea></label>
-        <button type="submit" style="display:inline-flex;align-items:center;height:56px;padding:0 34px;background:#990025;color:#FAF9F5;border:none;font:500 14px/1 'Public Sans',sans-serif;margin-top:32px;cursor:pointer" style-hover="background:#7A001D">Send enquiry</button>
+        <label style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true">Website<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
+        <label style="display:flex;flex-direction:column;gap:8px;margin-top:26px"><span style="font:500 13px/1 'Public Sans',sans-serif;color:#FAF9F5">Message</span><textarea name="message" rows="6" required minlength="10" maxlength="5000" style="border:1px solid #242420;background:#141412;padding:12px 14px;font:400 15px/1.6 'Public Sans',sans-serif;color:#FAF9F5;outline:none;resize:vertical"></textarea></label>
+        <button type="submit" disabled="{{ contactSubmitting }}" style="display:inline-flex;align-items:center;height:56px;padding:0 34px;background:#990025;color:#FAF9F5;border:none;font:500 14px/1 'Public Sans',sans-serif;margin-top:32px;cursor:pointer" style-hover="background:#7A001D">{{ contactSubmitLabel }}</button>
+        <div role="status" aria-live="polite" style="min-height:24px;margin-top:16px;font:400 14px/1.6 'Public Sans',sans-serif;color:{{ contactStatusColor }}">{{ contactStatus }}</div>
       </form>
       <aside>
         <div style="border:1px solid #242420;background:#141412;padding:30px 28px">
@@ -2652,7 +2654,7 @@ class Component extends DCLogic {
     { name: 'Novaleads Business Enterprise', initial: 'N', url: 'https://www.novaleadsystems.com/', headline: 'Novaleads Business Enterprise', summary: 'Technology and lead-generation systems provider, helping businesses connect with the right prospects and grow their pipeline.', linkLabel: 'Visit novaleadsystems.com', logo: true, brandColor: '#FAF9F5' }
   ];
 
-  state = { page: 'home', logoOk: true, countHotels: 0, countEmbassy: 0, revealed: {}, heroX: 30, heroY: 30, listingQuery: '', activeListing: 0, scrolled: false, narrow: false, menuOpen: false, oppMenuOpen: false, visitCount: 219835, dirQuery: '', activeLetter: null };
+  state = { page: 'home', logoOk: true, countHotels: 0, countEmbassy: 0, revealed: {}, heroX: 30, heroY: 30, listingQuery: '', activeListing: 0, scrolled: false, narrow: false, menuOpen: false, oppMenuOpen: false, visitCount: 219835, dirQuery: '', activeLetter: null, contactSubmitting: false, contactStatus: '', contactStatusOk: false };
 
   intraAfricaPoints = ['Expand African markets', 'Develop regional supply chains', 'Increase manufacturing and value addition', 'Reduce excessive dependence on imported finished products', 'Create opportunities for African SMEs', 'Strengthen regional production', 'Develop cross-border distribution networks', 'Create employment and entrepreneurship opportunities', 'Encourage technology and knowledge transfer', 'Build stronger African value chains', 'Increase resilience against external economic shocks'];
   africaToGlobal = ['International buyers', 'Export markets', 'Distributors', 'Technology partners', 'International investors', 'Strategic suppliers', 'Joint ventures', 'International expertise'];
@@ -3034,6 +3036,31 @@ class Component extends DCLogic {
       toggleAgri: () => this.setState((s) => ({ agriOpen: !s.agriOpen })),
       goAdvertise: this.go('advertise'),
       isAdvertise: p === 'advertise',
+      contactSubmitting: !!this.state.contactSubmitting,
+      contactSubmitLabel: this.state.contactSubmitting ? 'Sending…' : 'Send enquiry',
+      contactStatus: this.state.contactStatus || '',
+      contactStatusColor: this.state.contactStatusOk ? '#B9C46A' : '#E7A0AF',
+      onContactSubmit: async (e) => {
+        e.preventDefault();
+        if (this.state.contactSubmitting) return;
+        const form = e.target;
+        const fd = new FormData(form);
+        const payload = Object.fromEntries(fd.entries());
+        this.setState({ contactSubmitting: true, contactStatus: '', contactStatusOk: false });
+        try {
+          const result = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await result.json().catch(() => ({}));
+          if (!result.ok) throw new Error(data.error || 'We could not send your enquiry. Please try again.');
+          form.reset();
+          this.setState({ contactSubmitting: false, contactStatus: 'Thank you. Your enquiry has been sent successfully.', contactStatusOk: true });
+        } catch (error) {
+          this.setState({ contactSubmitting: false, contactStatus: error.message || 'We could not send your enquiry. Please try again.', contactStatusOk: false });
+        }
+      },
       onAdvertiseSubmit: (e) => {
         e.preventDefault();
         const fd = new FormData(e.target);
