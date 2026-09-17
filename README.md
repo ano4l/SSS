@@ -11,6 +11,7 @@ attached to the Vercel project as the *production* domain, otherwise shared link
 ## Structure
 
 - `index.html` - deployed page; identical to `Diplomatic Informer - Trade and Investment.dc.html`
+- `enquiry-form.html` - focused standalone enquiry form shared at `/enquiry`
 - `Diplomatic Informer - Trade and Investment.dc.html` - design source document (edit this, then re-copy to `index.html`)
 - `Diplomatic Informer - Trade and Investment (Standalone).html` - older self-contained bundle, kept for reference only (not deployed)
 - `Diplomatic Informer - Trade and Investment (standalone source).dc.html` - bundler source for the standalone export
@@ -29,6 +30,9 @@ Create a Web3Forms access key for `tradeinvestment@diplomaticinformer.com`, then
 - `WEB3FORMS_ACCESS_KEY` - the access key Web3Forms sends to the destination inbox
 
 After adding or changing the variable, redeploy the Production deployment. The visitor receives an inline success message only after Web3Forms accepts the enquiry; delivery failures remain on the form and can be retried.
+
+The shareable form link is **https://www.diplomaticinformerinvestments.com/enquiry**. It opens only the branded enquiry form and submits through the same server-side `/api/contact` endpoint.
+
 - `design_handoff_trade_investment_site/` - design handoff notes and an earlier snapshot (documentation only)
 - `vercel.json` - Vercel static hosting config (rewrites, cache headers)
 
