@@ -3,7 +3,7 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/.image-slots.state.json", "destination": "/image-slots.state.json" },
-    { "source": "/enquiry", "destination": "/enquiry-form.html" },
+    { "source": "/enquiry", "destination": "/enquiry-form" },
     { "source": "/:path*", "destination": "/index.html" }
   ],
   "headers": [
