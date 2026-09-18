@@ -11,7 +11,9 @@ attached to the Vercel project as the *production* domain, otherwise shared link
 ## Structure
 
 - `index.html` - deployed page; identical to `Diplomatic Informer - Trade and Investment.dc.html`
-- `enquiry-form.html` - focused standalone enquiry form shared at `/enquiry`
+- `enquiry-form.html` - standalone pathway chooser shared at `/enquiry`
+- `directory-listing-form.html` - standalone A–Z Directory Listing application at `/directory-listing`
+- `trade-enquiry-form.html` - standalone commercial Trade Enquiry form at `/trade-enquiry`
 - `Diplomatic Informer - Trade and Investment.dc.html` - design source document (edit this, then re-copy to `index.html`)
 - `Diplomatic Informer - Trade and Investment (Standalone).html` - older self-contained bundle, kept for reference only (not deployed)
 - `Diplomatic Informer - Trade and Investment (standalone source).dc.html` - bundler source for the standalone export
@@ -21,17 +23,21 @@ attached to the Vercel project as the *production* domain, otherwise shared link
 - `assets/favicon.svg`, `favicon-32.png`, `favicon-180.png` - globe favicon (SVG + raster fallbacks)
 - `assets/og-image.jpg` - 1200x630 link-preview image referenced by `og:image` / `twitter:image`
 - `assets/`, `uploads/` - images, logos and documents
-- `api/contact.js` - validates contact enquiries and delivers them through Web3Forms without exposing configuration in the browser
+- `api/contact.js` - validates contact enquiries and sends a complete structured email through Resend
 
 ## Contact form setup
 
-Create a Web3Forms access key for `tradeinvestment@diplomaticinformer.com`, then add this Production environment variable to the Vercel project:
+Verify `virtukey.co.za` as a sending domain in Resend, then add these Production environment variables to the Vercel project:
 
-- `WEB3FORMS_ACCESS_KEY` - the access key Web3Forms sends to the destination inbox
+- `RESEND_API_KEY` - Resend API key with permission to send email
+- `CONTACT_FROM_EMAIL` - `Diplomatic Informer Enquiries <forms@virtukey.co.za>`
+- `CONTACT_TO_EMAIL` - `tradeinvestment@diplomaticinformer.com`
 
-After adding or changing the variable, redeploy the Production deployment. The visitor receives an inline success message only after Web3Forms accepts the enquiry; delivery failures remain on the form and can be retried.
+After adding or changing the variables, redeploy the Production deployment. The visitor receives an inline success message only after Resend accepts the email; delivery failures remain on the form and can be retried. Resend sets the visitor's email as Reply-To, and the notification contains their full contact details, enquiry category, complete message, source page and submission timestamp.
 
-The shareable form link is **https://www.diplomaticinformerinvestments.com/enquiry**. It opens only the branded enquiry form and submits through the same server-side `/api/contact` endpoint.
+The shareable starting link is **https://www.diplomaticinformerinvestments.com/enquiry**. It opens only the branded pathway chooser. Directory applicants go to **`/directory-listing`**; specific commercial matters go to **`/trade-enquiry`**. All three standalone pages submit through the same server-side `/api/contact` endpoint.
+
+`/api/contact` uses the server-only Resend configuration above. Directory applications are sent with the subject `[Directory Listing Application] <organisation>` and include the organisation, contact, email, country, category, descriptor, selected 6- or 12-month term, selected package, notes, source URL and UTC timestamp. Trade enquiries are sent with `[Trade Enquiry] <enquiry focus> — <full name>` and include the submitted contact, market, focus, sector, timeframe, opportunity range, detailed enquiry, source URL and UTC timestamp. The visitor's email is set as Resend Reply-To. Legacy site contact submissions are treated as trade enquiries.
 
 - `design_handoff_trade_investment_site/` - design handoff notes and an earlier snapshot (documentation only)
 - `vercel.json` - Vercel static hosting config (rewrites, cache headers)
